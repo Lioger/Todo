@@ -16,11 +16,6 @@ body {
     color: #777;
 }
 
-.image {
-    width: 100%;
-    height: auto;
-}
-
 .container {
     max-width: 550px;
     margin: 0 auto;
@@ -55,7 +50,7 @@ body {
     box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
 }
 
-.text-container {
+.task-text {
     max-width: 90%;
     padding: 0 25px;
     font-size: 24px;
@@ -81,18 +76,28 @@ body {
     -o-border-radius: 30px;
 }
 
-.checked-checkbox {
-    background-image: url('./_images/check.png');
-}
-
-.arrow-container {
+.arrow {
     position: absolute;
-    left: 15px;
-    width: 4%;
+    left: 20px;
+    width: 25px;
+    height: 20px;
+    opacity: .15;
+    background-image: url(./_images/arrow.png);
+    background-size: cover;
+    transition: transform .3s;
+    -webkit-transition: transform .3s;
+    -moz-transition: transform .3s;
+    -ms-transition: transform .3s;
+    -o-transition: transform .3s;
 }
 
-.arrow-image {
-    opacity: 0.15;
+.arrow.completed {
+    opacity: .8;
+    transform: rotate(-180deg);
+    -webkit-transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    -o-transform: rotate(-180deg);
 }
 
 .input {
@@ -173,7 +178,10 @@ body {
     display: none;
 }
 
-.completed-task {
+.task.completed .task-text {
     text-decoration: line-through;
     color: #cacaca;
+}
+.task.completed .checkbox {
+    background-image: url('./_images/check.png');
 }

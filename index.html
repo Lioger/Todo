@@ -12,16 +12,18 @@
             todos
         </header>
         <section class="tasks-container">
+            <form class="search task">
+                <input type="text" class="input" placeholder="Search...">
+            </form>
+            <ul id="taskList" class="list task-list">
+            </ul>
             <section class="task task--create">
-                <div class="arrow-container hidden">
-                    <img class="image arrow-image" src="./_images/arrow.png" alt="Arrow">
+                <div class="arrow hidden">
                 </div>
-                <form name="newTaskTextForm" class="task__text-container">
+                <form name="newTaskTextForm" class="task-text">
                     <input type="text" name="addTaskInput" class="input" placeholder="What needs to be done?">
                 </form>
             </section>
-            <ul id="taskList" class="list task-list">
-            </ul>
             <footer id="footer" class="footer hidden">
                 <span class="task-counter"></span>
                 <ul class="list filters">

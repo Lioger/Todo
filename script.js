@@ -1,18 +1,24 @@
 const newTaskTextForm = document.newTaskTextForm;
+const searchForm = document.querySelector('.search');
 const taskList = document.querySelector('#taskList');
 const footer = document.querySelector('#footer');
-const completeAllArrow = document.querySelector('.arrow-container');
+const completeAllArrow = document.querySelector('.arrow');
 const counterWrapper = document.querySelector('.task-counter');
 
-
+searchForm.addEventListener('keyup', search);
 newTaskTextForm.addEventListener('submit', addNewtask);
 taskList.addEventListener('click', taskAbilities);
+completeAllArrow.addEventListener('click', completeAllTasks);
 
+function search(e) {
+    e.preventDefault();
+    console.log(e.target.value);
+}
 
 function generateTemplate(value){
     const template = `<li class="task">
         <div class="checkbox"></div>
-        <p name="taskText" class="text-container">${value}</p>
+        <p class="task-text">${value}</p>
         <div class="cross"></div>
     </li>`;
     return template;
@@ -44,8 +50,14 @@ function removeTask(e) {
 }
 
 function completeTask(e) {
-    e.target.children[0].classList.toggle('checked-checkbox');
-    e.target.children[1].classList.toggle('completed-task');
+    e.target.classList.toggle('completed');
+}
+
+function completeAllTasks(e) {
+    e.target.classList.toggle('completed');
+    for (const item of taskList.children) {
+        item.classList.toggle('completed');
+    }
 }
 
 function showContent() {
