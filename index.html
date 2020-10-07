@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+<body>
+    <section class="container">
+        <header class="header">
+            todos
+        </header>
+        <section class="tasks-container">
+            <section class="task task--create">
+                <div class="arrow-container">
+                    <img class="image arrow-image" src="./_images/arrow.png" alt="Arrow">
+                </div>
+                <form name="newTaskTextForm" class="task__text-container">
+                    <input type="text" name="newTaskText" class="input" placeholder="What needs to be done?">
+                </form>
+            </section>
+            <ul id="taskList" class="list task-list">
+            </ul>
+            <footer id="footer" class="footer">
+                <span class="task-counter">3 items left</span>
+                <ul class="list filters">
+                    <li class="filters__element"><a href="#" class="link">All</a></li>
+                    <li class="filters__element"><a href="#" class="link">Acitve</a></li>
+                    <li class="filters__element"><a href="#" class="link">Completed</a></li>
+                </ul>
+                <span class="clear-completed"><a href="#" class="link">Clear completed</a></span>
+            </footer>
+        </section>
+    </section>
+    <script src="./script.js"></script>
+</body>
+</html>
