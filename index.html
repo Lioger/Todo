@@ -15,23 +15,23 @@
             <form class="search task">
                 <input type="text" class="input" placeholder="Search...">
             </form>
-            <ul id="taskList" class="list task-list">
+            <ul id="taskList" class="list">
             </ul>
             <section class="task task--create">
                 <div class="arrow hidden">
                 </div>
-                <form name="newTaskTextForm" class="task-text">
-                    <input type="text" name="addTaskInput" class="input" placeholder="What needs to be done?">
+                <form id="newTaskForm" class="task-text">
+                    <input type="text" id="newTaskInput" class="input" placeholder="What needs to be done?">
                 </form>
             </section>
             <footer id="footer" class="footer hidden">
                 <span class="task-counter"></span>
                 <ul class="list filters">
-                    <li class="filters__element"><a href="#" class="link">All</a></li>
-                    <li class="filters__element"><a href="#" class="link">Acitve</a></li>
-                    <li class="filters__element"><a href="#" class="link">Completed</a></li>
+                    <li class="filters__element link all-filter choosen">All</li>
+                    <li class="filters__element link active-filter">Acitve</li>
+                    <li class="filters__element link completed-filter">Completed</li>
                 </ul>
-                <span class="clear-completed hidden"><a href="#" class="link">Clear completed</a></span>
+                <span class="clear-completed link hidden">Clear completed</span>
             </footer>
         </section>
     </section>
