@@ -1,7 +1,7 @@
 const newTaskForm = document.querySelector('#newTaskForm');
 const searchForm = document.querySelector('.search');
 const taskList = document.querySelector('#taskList');
-const footer = document.querySelector('#footer');
+const filtersList = document.querySelector('.filters-list');
 const completeAllArrow = document.querySelector('.arrow');
 const counterWrapper = document.querySelector('.task-counter');
 const clearCompletedButton = document.querySelector('.clear-completed');
@@ -10,8 +10,8 @@ const clearCompletedButton = document.querySelector('.clear-completed');
 searchForm.addEventListener('keyup', search);
 newTaskForm.addEventListener('submit', addNewtask);
 taskList.addEventListener('click', taskAbilities);
-completeAllArrow.addEventListener('click', completeAllTasks);
-footer.addEventListener('click', appendFilters);
+completeAllArrow.addEventListener('click', completeAllConditions);
+filtersList.addEventListener('click', appendFilters);
 clearCompletedButton.addEventListener('click', clearCompleted);
 
 function search(e) {
@@ -41,7 +41,7 @@ function taskAbilities(e) {
     if (e.target.classList.contains('cross')) {
         removeTask(e);
     } else if (e.target.classList.contains('task')) {
-        (!e.target.classList.contains('completed')) ? completeTask(e) : uncompleteTask(e);
+        completeTask(e);
     }
 }
 
@@ -65,21 +65,26 @@ function removeTask(e) {
 }
 
 function completeTask(e) {
-    e.target.classList.add('completed');
-    const completedCount = getCompletedCount();
-    updateCounter(completedCount);
-}
-
-function uncompleteTask(e) {
-    e.target.classList.remove('completed');
-    const completedCount = getCompletedCount();
-    updateCounter(completedCount);
-}
-
-function completeAllTasks(e) {
     e.target.classList.toggle('completed');
-    for (const item of taskList.children) {
-        item.classList.toggle('completed');
+    const completedCount = getCompletedCount();
+    updateCounter(completedCount);
+    if (completedCount === taskList.children.length) {
+        completeAllArrow.classList.add('completed');
+    } else {
+        completeAllArrow.classList.remove('completed');
+    }
+}
+
+function completeAllConditions(e) {
+    e.target.classList.toggle('completed');
+    if (e.target.classList.contains('completed')) {
+        for (const item of taskList.children) {
+            item.classList.add('completed');
+        }
+    } else if (!e.target.classList.contains('completed')) {
+        for (const item of taskList.children) {
+            item.classList.remove('completed');
+        }
     }
     const completedCount = getCompletedCount();
     updateCounter(completedCount);
@@ -105,35 +110,48 @@ function clearCompleted() {
     for (item of filteredTaskArr) {
         item.remove();
     }
+    completeAllArrow.classList.remove('completed');
     getCompletedCount();
+    showContent();
 }
 
 function appendFilters(e) {
+    for (const item of filtersList.children) {
+        item.classList.remove('choosen');
+    };
     e.target.classList.toggle('choosen');
     if (e.target.classList.contains('all-filter')) {
-        showAllFilter(e);
+        showAllFilter();
     } else if (e.target.classList.contains('active-filter')) {
-        showActiveFilter(e);
+        showActiveFilter();
     } else if (e.target.classList.contains('completed-filter')) {
-        showCompletedFilter(e);
+        showCompletedFilter();
     }
 }
 
-function showAllFilter(e) {
-    taskList.children.classList.remove('hidden');
-}
+function showAllFilter() {
+    for (const item of taskList.children) {
+        item.classList.remove('hidden');
+    }
+}   
 
-function showActiveFilter(e) {
-    const filteredTaskArr = [...taskList.children].filter(item => item.classList.contains('completed'));
-    for (item of filteredTaskArr) {
-        item.classList.add('hidden');
+function showActiveFilter() {
+    for (const item of taskList.children) {
+        if (item.classList.contains('completed')) {
+            item.classList.add('hidden');
+        } else if (!item.classList.contains('completed')) {
+            item.classList.remove('hidden');
+        }
     }
 }
 
-function showCompletedFilter(e) {
-    const filteredTaskArr = [...taskList.children].filter(item => !item.classList.contains('completed'));
-    for (item of filteredTaskArr) {
-        item.classList.add('hidden');
+function showCompletedFilter() {
+    for (const item of taskList.children) {
+        if (item.classList.contains('completed')) {
+            item.classList.remove('hidden');
+        } else if (!item.classList.contains('completed')) {
+            item.classList.add('hidden');
+        }
     }
 }
 
