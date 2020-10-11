@@ -16,15 +16,15 @@ class AddTodo extends Component {
         this.props.addTodo(this.state);
         this.setState({
             content: ''
-        })
+        });
     };
 
     render(){
         return(
             <div>
-                <form onSubmit={ this.handleSubmit }>
-                    <label>Add new todo:</label>
-                    <input type="text" onChange={ this.handleChange } value={this.state.content} />
+                <form className="add-todo-form" onSubmit={ this.handleSubmit }>
+                    <input type="text" className="input collection-item" onChange={ this.handleChange } placeholder="What needs to be done?" value={this.state.content} />
+                    <div className="arrow"></div>
                 </form>
             </div>
         );

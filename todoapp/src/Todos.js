@@ -1,21 +1,19 @@
-import React from 'react'
+import React from 'react';
 
-const Todos = ({ todos, deleteTodo }) => {
+
+const Todos = ({ todos, deleteTodo, completeTodo }) => {
 
     const todoList = todos.length ? (
         todos.map(todo => {
             return (
-                <div className="collection-item" key={todo.id}>
+                <div className="collection-item" key={todo.id} onClick={ () => completeTodo(todo.id) }>
                     <div className="checkbox"></div>
                     <span className="task-text">{todo.content}</span>
-                    <div className="cross" onClick={ () => {deleteTodo(todo.id)} }></div>
+                    <div className="cross" onClick={ () => deleteTodo(todo.id) }></div>
                 </div>
             )
         })
-    ) : (
-        // we have no todos
-        <p className="center">You have no todo's left, yay!</p>
-    );
+    ) : (null);
 
     return (
         <div className="todos collection">
