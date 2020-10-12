@@ -9,6 +9,7 @@ class Search extends Component {
         this.setState({
             content: e.target.value
         });
+        console.log(e.target.value)
     };
 
     handleSubmit = (e) => {
@@ -17,11 +18,9 @@ class Search extends Component {
 
     render () {
         return(
-            <div>
-                <form className="search" onSubmit={ this.handleSubmit }>
-                    <input type="text" className="input collection-item" onChange={ this.handleChange } placeholder="Search..." value={this.state.content} />
-                </form>
-            </div>
+            <form className="search input-item" onSubmit={ this.handleSubmit }>
+                <input type="text" className="input collection-item" onChange={ this.handleChange } placeholder="Search..." value={this.state.content} />
+            </form>
         )
     }
 }

@@ -1,0 +1,47 @@
+.footer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #777;
+    font-size: 14px;
+    padding: 10px 0;
+}
+
+.filters-list {
+    display: flex;
+}
+  
+.filters__element {
+    cursor: pointer;
+    list-style-type: none;
+    text-decoration: none;
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid;
+    border-color: rgba(175, 47, 47, 0);
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+  
+.filters__element:hover {
+    border-color: rgba(175, 47, 47, 0.15);
+}
+  
+.task-counter {
+    position: absolute;
+    left: 15px;
+}
+  
+.clear-completed {
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+}
+
+.clear-completed:hover {
+      text-decoration: underline;
+}

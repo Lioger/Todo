@@ -21,12 +21,10 @@ class AddTodo extends Component {
 
     render(){
         return(
-            <div>
-                <form className="add-todo-form" onSubmit={ this.handleSubmit }>
-                    <input type="text" className="input collection-item" onChange={ this.handleChange } placeholder="What needs to be done?" value={this.state.content} />
-                    <div className="arrow"></div>
-                </form>
-            </div>
+            <form className="add-todo-form input-item" onSubmit={ this.handleSubmit }>
+                <input type="text" className="input collection-item" onChange={ this.handleChange } placeholder="What needs to be done?" value={this.state.content} />
+                <div className="arrow"></div>
+            </form>
         );
     }
 }

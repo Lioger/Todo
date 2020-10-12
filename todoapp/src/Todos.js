@@ -1,25 +1,44 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 
-const Todos = ({ todos, deleteTodo, completeTodo }) => {
+class Todos extends Component {
+    state = {
+        completedCount: 0
+    }
 
-    const todoList = todos.length ? (
-        todos.map(todo => {
-            return (
-                <div className="collection-item" key={todo.id} onClick={ () => completeTodo(todo.id) }>
-                    <div className="checkbox"></div>
-                    <span className="task-text">{todo.content}</span>
-                    <div className="cross" onClick={ () => deleteTodo(todo.id) }></div>
-                </div>
-            )
-        })
-    ) : (null);
+    completeTodo = (e) => {
+        if (e.target.className === 'collection-item') {
+            e.target.className = 'collection-item completed';
+            this.setState({
+                completedCount: (this.state.completedCount+1)
+            });
+        } else if (e.target.className === 'collection-item completed') {
+            e.target.className = 'collection-item';
+            this.setState({
+                completedCount: (this.state.completedCount-1)
+            });
+        };
+        this.props.getCompletedCount(this.state.completedCount);
+    };
 
-    return (
-        <div className="todos collection">
-            { todoList }
-        </div>
-    )
+    render() {
+        const todoList = (this.props.todos.length) ? (
+            this.props.todos.map(todo => {
+                return (
+                    <div className="collection-item" key={todo.id} onClick={ this.completeTodo }>
+                        <span className="task-text">{todo.content}</span>
+                        <div className="checkbox"></div>
+                        <div className="cross" onClick={ () => this.props.deleteTodo(todo.id) }></div>
+                    </div>
+                )
+            })
+        ) : (null);
+        return (
+            <div className="todos collection">
+                { todoList }
+            </div>
+        )
+    }
 }
 
 export default Todos
