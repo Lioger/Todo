@@ -24,3 +24,7 @@ body {
   color: rgba(175, 47, 47, 0.25);
   padding: 15px 0;
 }
+
+.hidden {
+  display: none;
+}
