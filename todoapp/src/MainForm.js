@@ -9,7 +9,8 @@ class MainForm extends Component {
   state = {
     completedCount: 0,
     completedAll: false,
-    todos: []
+    todos: [],
+    footer: false
   };
 
     addTodo = (todo) => {
@@ -17,7 +18,7 @@ class MainForm extends Component {
         let todos = [...this.state.todos, todo];
         this.setState({
             todos
-        });
+        }, this.showFooter);
     };
 
     deleteTodo = (id) => {
@@ -26,7 +27,7 @@ class MainForm extends Component {
         });
         this.setState({
             todos
-        })
+        }, this.showFooter)
     };
 
     searchTodo = (value) => {
@@ -52,39 +53,81 @@ class MainForm extends Component {
         });
         this.setState({
             todos
-        });
-        this.getCompletedCount();
+        }, this.getCompletedCount());
     };
 
+    checkCompletedAll = () => {
+        (this.state.todos.length === this.state.completedCount && this.state.todos.length !== 0) ? this.setState({completedAll: true}) : this.setState({completedAll: false});
+    }
+
     completeAll = () => {
-        if (this.state.todos.length === this.state.completedCount) {
-            this.setState({
-                completedAll: !this.state.completedAll
-            })
-        } else {
+        this.setState({
+            completedAll: !this.state.completedAll,
+        }, this.allTodoCompletedSwitch)
+    }
+
+    allTodoCompletedSwitch = () => {
+        if (this.state.completedAll) {
             const todos = this.state.todos.map(todo => {
-                todo.completed = !todo.completed;
+                todo.completed = true;
                 return todo;
             });
             this.setState({
-                todos,
-                completedAll: !this.state.completedAll
-            })
+                todos
+            }, this.getCompletedCount)
+        } else {
+            const todos = this.state.todos.map(todo => {
+                todo.completed = false;
+                return todo;
+            });
+            this.setState({
+                todos
+            }, this.getCompletedCount)
         }
+    }
+
+    showFooter = () => {
+        (this.state.todos.length) ? this.setState({ footer: true }) : this.setState({ footer: false });
     }
 
     getCompletedCount = () => {
         const completedTodos = this.state.todos.filter(todo => todo.completed);
         this.setState({
             completedCount: completedTodos.length
-        })
+        }, this.checkCompletedAll);
     }
 
     clearCompleted = () => {
         const completedTodos = this.state.todos.filter(todo => !todo.completed);
         this.setState({
-            todos: completedTodos
-        }, this.getCompletedCount);
+            todos: completedTodos,
+            completedCount: 0
+        }, () => {this.showFooter(); this.checkCompletedAll()});
+    }
+
+    appendFilter = (filter) => {
+        if (filter === 'all-filter') {
+            const todos = this.state.todos.map(todo => { todo.hidden = false; return todo });
+            this.setState({
+                todos
+            });
+        } else if (filter === 'active-filter') {
+            const todos = this.state.todos.map(todo => {
+                !todo.completed ? todo.hidden = false : todo.hidden = true;
+                return todo;
+            });
+            this.setState({
+                todos
+            });
+        } else if (filter === 'completed-filter') {
+            const todos = this.state.todos.map(todo => {
+                todo.completed ? todo.hidden = false : todo.hidden = true;
+                return todo;
+            });
+            this.setState({
+                todos
+            });
+        }
     }
 
     render() {
@@ -93,7 +136,7 @@ class MainForm extends Component {
             <Search searchTodo={ this.searchTodo }/>
             <Todos todos={ this.state.todos } deleteTodo={ this.deleteTodo } completeTodo={ this.completeTodo }/>
             <AddTodo addTodo={ this.addTodo } completeAll={ this.completeAll } completeAllStatus={ this.state.completedAll }/>
-            <Footer completedCount={ this.state.todos.length - this.state.completedCount } clearCompleted={ this.clearCompleted }/>
+            <Footer appendFilter={ this.appendFilter } showFooter={ this.state.footer } completedCount={ this.state.todos.length - this.state.completedCount } clearCompleted={ this.clearCompleted }/>
         </div>
         )
     }

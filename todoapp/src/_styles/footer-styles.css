@@ -28,7 +28,11 @@
 }
   
 .filters__element:hover {
-    border-color: rgba(175, 47, 47, 0.15);
+    border-color: rgba(175, 47, 47, .2);
+}
+
+.filters__element.choosen {
+    border-color: rgba(175, 47, 47, .35);
 }
   
 .task-counter {
