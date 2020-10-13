@@ -51,9 +51,9 @@ class MainForm extends Component {
             return todo;
         });
         this.setState({
-<<<<<<< HEAD
             todos
-        }, this.getCompletedCount());
+        });
+        this.getCompletedCount();
     };
 
     completeAll = () => {
@@ -71,14 +71,6 @@ class MainForm extends Component {
                 completedAll: !this.state.completedAll
             })
         }
-=======
-        todos
-        });
-    };
-
-    searchTodo = (value) => {
-        // let todos = this.state.todos.filter( todo => todo.content.includes(value));
->>>>>>> 0e7a028706db13e3cd72df14a9bb3d8b5d50227a
     }
 
     getCompletedCount = () => {
@@ -92,23 +84,16 @@ class MainForm extends Component {
         const completedTodos = this.state.todos.filter(todo => !todo.completed);
         this.setState({
             todos: completedTodos
-        });
-        this.getCompletedCount();
+        }, this.getCompletedCount);
     }
 
     render() {
         return (
         <div className="main-form">
             <Search searchTodo={ this.searchTodo }/>
-<<<<<<< HEAD
             <Todos todos={ this.state.todos } deleteTodo={ this.deleteTodo } completeTodo={ this.completeTodo }/>
             <AddTodo addTodo={ this.addTodo } completeAll={ this.completeAll } completeAllStatus={ this.state.completedAll }/>
             <Footer completedCount={ this.state.todos.length - this.state.completedCount } clearCompleted={ this.clearCompleted }/>
-=======
-            <Todos todos={ this.state.todos } deleteTodo={ this.deleteTodo } clearCompleted={ this.clearCompleted }/>
-            <AddTodo addTodo={ this.addTodo } />
-            <Footer todos={ this.state.todos } completedCount={ this.state.todos.length - this.state.completedCount } clearCompleted={ this.clearCompletedClick }/>
->>>>>>> 0e7a028706db13e3cd72df14a9bb3d8b5d50227a
         </div>
         )
     }
