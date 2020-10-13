@@ -31,12 +31,11 @@ class MainForm extends Component {
         let todos = [...this.state.todos, todo];
         this.setState({
         todos
-        }, () => console.log(...this.state.todos));
+        });
     };
 
     searchTodo = (value) => {
-        const answers = this.state.todos.map( todo => {return todo.content.includes(value)});
-        console.log(answers)
+        // let todos = this.state.todos.filter( todo => todo.content.includes(value));
     }
 
     clearCompletedClick = () => {
@@ -51,9 +50,9 @@ class MainForm extends Component {
         return (
         <div className="main-form">
             <Search searchTodo={ this.searchTodo }/>
-            <Todos todos={ this.state.todos } deleteTodo={ this.deleteTodo } getCompletedCount={ this.getCompletedCount } clearCompleted={ this.clearCompleted }/>
+            <Todos todos={ this.state.todos } deleteTodo={ this.deleteTodo } clearCompleted={ this.clearCompleted }/>
             <AddTodo addTodo={ this.addTodo } />
-            <Footer completedCount={ this.state.todos.length - this.state.completedCount } clearCompleted={ this.clearCompletedClick }/>
+            <Footer todos={ this.state.todos } completedCount={ this.state.todos.length - this.state.completedCount } clearCompleted={ this.clearCompletedClick }/>
         </div>
         )
     }

@@ -1,37 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 
-class Todos extends Component {
-    state = {
-        completedCount: 0
-    }
+const Todos = ({todos, deleteTodo, clearCompleted}) => {
+    let completedCount = 0;
+    const todoList = (this.props.todos.length) ? (
+        this.props.todos.map(todo => {
+            if (!todo.hidden) {
+            return (
+                <div className={collection-item + completed} key={todo.id} onClick={  }>
+                    <span className="task-text">{todo.content}</span>
+                    <div className="checkbox"></div>
+                    <div className="cross" onClick={ () => this.props.deleteTodo(todo.id) }></div>
+                </div>
+            )} else { return null }
+        })
+    ) : (null);
 
-    completeTodo = (e, todoCompletedStatus) => {
-        if (e.target.className === 'collection-item') {
-            e.target.className = 'collection-item completed';
-            this.setState({
-                completedCount: this.state.completedCount+1,
-            }, () => this.props.getCompletedCount(this.state.completedCount));
-        } else if (e.target.className === 'collection-item completed') {
-            e.target.className = 'collection-item';
-            this.setState({
-                completedCount: this.state.completedCount-1
-            }, () => this.props.getCompletedCount(this.state.completedCount));
-        };
-    };
-
-    render() {
-        const todoList = (this.props.todos.length) ? (
-            this.props.todos.map(todo => {
-                return (
-                    <div className="collection-item" key={todo.id} onClick={ this.completeTodo }>
-                        <span className="task-text">{todo.content}</span>
-                        <div className="checkbox"></div>
-                        <div className="cross" onClick={ () => this.props.deleteTodo(todo.id) }></div>
-                    </div>
-                )
-            })
-        ) : (null);
         return (
             <div className="todos collection">
                 { todoList }
@@ -40,4 +24,21 @@ class Todos extends Component {
     }
 }
 
-export default Todos
+export default Todos;
+
+
+
+    // completeTodo = (e) => {
+    //     if (e.target.className === 'collection-item') {
+    //         e.target.className = 'collection-item completed';
+    //         this.setState({
+    //             completedCount: this.state.completedCount+1,
+    //         }, () => this.props.getCompletedCount(this.state.completedCount));
+    //     } else if (e.target.className === 'collection-item completed') {
+    //         e.target.className = 'collection-item';
+    //         this.props.todos.completed = false;
+    //         this.setState({
+    //             completedCount: this.state.completedCount-1
+    //         }, () => this.props.getCompletedCount(this.state.completedCount));
+    //     };
+    // };

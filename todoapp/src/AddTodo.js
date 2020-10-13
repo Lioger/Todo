@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 class AddTodo extends Component {
     state = {
-        content: '',
-        completed: false
+        content: ''
     };
 
     handleChange = (e) => {
@@ -14,7 +13,9 @@ class AddTodo extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.addTodo(this.state);
+        if (this.state.content) {
+            this.props.addTodo(this.state);
+        }
         this.setState({
             content: ''
         });

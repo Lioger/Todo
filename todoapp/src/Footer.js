@@ -3,6 +3,7 @@ import './_styles/footer-styles.css';
 
 class Footer extends Component {
     render() {
+        if (this.props.todos.length > 0) {
         return(
             <footer className="footer">
                 <ul className="list filters-list">
@@ -14,6 +15,9 @@ class Footer extends Component {
                 <span className="clear-completed link" onClick={ () => this.props.clearCompletedClick }>Clear completed</span> 
             </footer>
         )
+        } else {
+            return null
+        }
     }
 }
 
