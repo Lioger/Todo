@@ -11,7 +11,7 @@ class Footer extends Component {
                     <li className="filters__element link completed-filter">Completed</li>
                 </ul>
                 <span className="task-counter">{ this.props.completedCount } task{ (this.props.completedCount !==1) ? 's' : '' } left</span>
-                <span className="clear-completed link hidden">Clear completed</span> 
+                <span className="clear-completed link" onClick={ () => this.props.clearCompletedClick }>Clear completed</span> 
             </footer>
         )
     }

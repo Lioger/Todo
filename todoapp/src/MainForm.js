@@ -31,16 +31,29 @@ class MainForm extends Component {
         let todos = [...this.state.todos, todo];
         this.setState({
         todos
-        })
+        }, () => console.log(...this.state.todos));
     };
+
+    searchTodo = (value) => {
+        const answers = this.state.todos.map( todo => {return todo.content.includes(value)});
+        console.log(answers)
+    }
+
+    clearCompletedClick = () => {
+        this.clearCompleted();
+    }
+
+    clearCompleted = () => {
+
+    }
 
     render() {
         return (
         <div className="main-form">
-            <Search />
-            <Todos todos={ this.state.todos } deleteTodo={ this.deleteTodo } getCompletedCount={ this.getCompletedCount }/>
+            <Search searchTodo={ this.searchTodo }/>
+            <Todos todos={ this.state.todos } deleteTodo={ this.deleteTodo } getCompletedCount={ this.getCompletedCount } clearCompleted={ this.clearCompleted }/>
             <AddTodo addTodo={ this.addTodo } />
-            <Footer completedCount={ this.state.completedCount }/>
+            <Footer completedCount={ this.state.todos.length - this.state.completedCount } clearCompleted={ this.clearCompletedClick }/>
         </div>
         )
     }

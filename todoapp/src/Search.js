@@ -8,8 +8,7 @@ class Search extends Component {
     handleChange = (e) => {
         this.setState({
             content: e.target.value
-        });
-        console.log(e.target.value)
+        }, () => this.props.searchTodo(this.state.content));
     };
 
     handleSubmit = (e) => {

@@ -6,19 +6,18 @@ class Todos extends Component {
         completedCount: 0
     }
 
-    completeTodo = (e) => {
+    completeTodo = (e, todoCompletedStatus) => {
         if (e.target.className === 'collection-item') {
             e.target.className = 'collection-item completed';
             this.setState({
-                completedCount: (this.state.completedCount+1)
-            });
+                completedCount: this.state.completedCount+1,
+            }, () => this.props.getCompletedCount(this.state.completedCount));
         } else if (e.target.className === 'collection-item completed') {
             e.target.className = 'collection-item';
             this.setState({
-                completedCount: (this.state.completedCount-1)
-            });
+                completedCount: this.state.completedCount-1
+            }, () => this.props.getCompletedCount(this.state.completedCount));
         };
-        this.props.getCompletedCount(this.state.completedCount);
     };
 
     render() {
