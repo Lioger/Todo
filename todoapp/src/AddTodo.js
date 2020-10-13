@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 
 class AddTodo extends Component {
     state = {
+<<<<<<< HEAD
         content: '',
         completed: false,
         hidden: false
+=======
+        content: ''
+>>>>>>> 0e7a028706db13e3cd72df14a9bb3d8b5d50227a
     };
 
     handleChange = (e) => {
