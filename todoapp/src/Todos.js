@@ -1,43 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 
-class Todos extends Component {
-    state = {
-        completedCount: 0
-    }
-
-    completeTodo = (e, todoCompletedStatus) => {
-        if (e.target.className === 'collection-item') {
-            e.target.className = 'collection-item completed';
-            this.setState({
-                completedCount: this.state.completedCount+1,
-            }, () => this.props.getCompletedCount(this.state.completedCount));
-        } else if (e.target.className === 'collection-item completed') {
-            e.target.className = 'collection-item';
-            this.setState({
-                completedCount: this.state.completedCount-1
-            }, () => this.props.getCompletedCount(this.state.completedCount));
-        };
-    };
-
-    render() {
-        const todoList = (this.props.todos.length) ? (
-            this.props.todos.map(todo => {
-                return (
-                    <div className="collection-item" key={todo.id} onClick={ this.completeTodo }>
-                        <span className="task-text">{todo.content}</span>
-                        <div className="checkbox"></div>
-                        <div className="cross" onClick={ () => this.props.deleteTodo(todo.id) }></div>
-                    </div>
-                )
-            })
-        ) : (null);
-        return (
-            <div className="todos collection">
-                { todoList }
-            </div>
-        )
-    }
+const Todos = (props) => {
+    const todoList = (props.todos.length) ? (
+        props.todos.map(todo => {
+            const completeStatus = todo.completed ? 'completed' : '';
+            const hideStatus = todo.hidden ? 'hidden' : '';
+            return (
+                <div className={'collection-item ' + completeStatus + hideStatus} key={todo.id} onClick={ () => props.completeTodo(todo.id) }>
+                    <span className="task-text">{todo.content}</span>
+                    <div className="checkbox"></div>
+                    <div className="cross" onClick={ () => props.deleteTodo(todo.id) }></div>
+                </div>
+            )
+        })
+    ) : (null);
+    return (
+        <div className="todos collection">
+            { todoList }
+        </div>
+    )
 }
+
 
 export default Todos

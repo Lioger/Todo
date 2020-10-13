@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 class AddTodo extends Component {
     state = {
         content: '',
-        completed: false
+        completed: false,
+        hidden: false
     };
 
     handleChange = (e) => {
@@ -14,17 +15,20 @@ class AddTodo extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.addTodo(this.state);
+        if (this.state.content) {
+            this.props.addTodo(this.state);
+        }
         this.setState({
             content: ''
         });
     };
 
     render(){
+        const completeAllStatus = this.props.completeAllStatus ? 'active' : '';
         return(
             <form className="add-todo-form input-item" onSubmit={ this.handleSubmit }>
                 <input type="text" className="input collection-item" onChange={ this.handleChange } placeholder="What needs to be done?" value={this.state.content} />
-                <div className="arrow"></div>
+                <div className={'arrow ' + completeAllStatus} onClick={ () => this.props.completeAll() }></div>
             </form>
         );
     }

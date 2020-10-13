@@ -8,52 +8,92 @@ import './_styles/main-form-styles.css';
 class MainForm extends Component {
   state = {
     completedCount: 0,
+    completedAll: false,
     todos: []
   };
-
-    deleteTodo = (id) => {
-        const todos = this.state.todos.filter( todo => {
-        return todo.id !== id;
-        });
-        this.setState({
-        todos
-        })
-    };
-
-    getCompletedCount = (count) => {
-        this.setState({
-            completedCount: count
-        })
-    }
 
     addTodo = (todo) => {
         todo.id = Math.random();
         let todos = [...this.state.todos, todo];
         this.setState({
-        todos
-        }, () => console.log(...this.state.todos));
+            todos
+        });
+    };
+
+    deleteTodo = (id) => {
+        const todos = this.state.todos.filter( todo => {
+            return todo.id !== id;
+        });
+        this.setState({
+            todos
+        })
     };
 
     searchTodo = (value) => {
-        const answers = this.state.todos.map( todo => {return todo.content.includes(value)});
-        console.log(answers)
+        const todos = this.state.todos.map(todo => {
+            if (!todo.content.toLowerCase().includes(value.toLowerCase())) {
+                todo.hidden = true;
+            } else {
+                todo.hidden = false;
+            };
+            return todo;
+        });
+        this.setState({
+            todos
+        })
     }
 
-    clearCompletedClick = () => {
-        this.clearCompleted();
+    completeTodo = (id) => {
+        const todos = this.state.todos.map(todo => {
+            if (todo.id === id) {
+                todo.completed = !todo.completed;
+            };
+            return todo;
+        });
+        this.setState({
+            todos
+        }, this.getCompletedCount());
+    };
+
+    completeAll = () => {
+        if (this.state.todos.length === this.state.completedCount) {
+            this.setState({
+                completedAll: !this.state.completedAll
+            })
+        } else {
+            const todos = this.state.todos.map(todo => {
+                todo.completed = !todo.completed;
+                return todo;
+            });
+            this.setState({
+                todos,
+                completedAll: !this.state.completedAll
+            })
+        }
+    }
+
+    getCompletedCount = () => {
+        const completedTodos = this.state.todos.filter(todo => todo.completed);
+        this.setState({
+            completedCount: completedTodos.length
+        })
     }
 
     clearCompleted = () => {
-
+        const completedTodos = this.state.todos.filter(todo => !todo.completed);
+        this.setState({
+            todos: completedTodos
+        });
+        this.getCompletedCount();
     }
 
     render() {
         return (
         <div className="main-form">
             <Search searchTodo={ this.searchTodo }/>
-            <Todos todos={ this.state.todos } deleteTodo={ this.deleteTodo } getCompletedCount={ this.getCompletedCount } clearCompleted={ this.clearCompleted }/>
-            <AddTodo addTodo={ this.addTodo } />
-            <Footer completedCount={ this.state.todos.length - this.state.completedCount } clearCompleted={ this.clearCompletedClick }/>
+            <Todos todos={ this.state.todos } deleteTodo={ this.deleteTodo } completeTodo={ this.completeTodo }/>
+            <AddTodo addTodo={ this.addTodo } completeAll={ this.completeAll } completeAllStatus={ this.state.completedAll }/>
+            <Footer completedCount={ this.state.todos.length - this.state.completedCount } clearCompleted={ this.clearCompleted }/>
         </div>
         )
     }

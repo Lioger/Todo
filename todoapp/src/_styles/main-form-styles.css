@@ -87,6 +87,15 @@
     -o-transition: transform .3s;
 }
 
+.arrow.active {
+    opacity: .7;
+    transform: rotate(-180deg);
+    -webkit-transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    -o-transform: rotate(-180deg);
+}
+
 .collection-item.completed {
     text-decoration: line-through;
     color: #cacaca;
