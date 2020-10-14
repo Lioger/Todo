@@ -1,53 +1,43 @@
-import React, { Component } from 'react';
-import FooterGenerator from './FooterGenerator';
+import React, { useState } from 'react';
 import './_styles/footer-styles.css';
 
-class Footer extends Component {
-    state = {
-        choosenFilter: 'all'
-    }
+const Footer = ({appendFilter, completedCount, clearCompleted}) => {
+    const [choosenFilter, setChoosenFilter] = useState('all');
 
-    linkFilter = (value) => {
-        this.props.appendFilter(value);
+    const linkFilter = (value) => {
+        appendFilter(value);
         switch (value) {
             case 'all':
-                this.setState({
-                    choosenFilter: 'all'
-                });
+                setChoosenFilter('all');
                 break;
             case 'active':
-                this.setState({
-                    choosenFilter: 'active'
-                });                
+                setChoosenFilter('active');                
                 break;
             case 'completed':
-                this.setState({
-                    choosenFilter: 'completed'
-                });                
+                setChoosenFilter('completed');                
                 break;
             default:
                 return null;
         }
     }
-    render(){
-        const hideStatus = !this.props.showFooter ? 'hidden' : '';
 
-        const allFilterClass = `filters__element link all-filter ${ this.state.choosenFilter==='all' ? 'choosen' : '' }`
-        const activeFilterClass = `filters__element link active-filter ${ this.state.choosenFilter==='active' ? 'choosen' : '' }`
-        const completedFilterClass = `filters__element link completed-filter ${ this.state.choosenFilter==='completed' ? 'choosen' : '' }`
+    const allFilterClass = `filters__element link all-filter ${ choosenFilter==='all' ? 'choosen' : '' }`
+    const activeFilterClass = `filters__element link active-filter ${ choosenFilter==='active' ? 'choosen' : '' }`
+    const completedFilterClass = `filters__element link completed-filter ${ choosenFilter==='completed' ? 'choosen' : '' }`
 
-        const filterClassArr = [allFilterClass, activeFilterClass, completedFilterClass];
-
-        return(
-            <FooterGenerator hideStatus={ hideStatus } 
-                linkFilter={ this.linkFilter }
-                filterClassArr={ filterClassArr } 
-                completedCount={ this.props.completedCount } 
-                clearCompleted={ this.props.clearCompleted }
-            />
-        )
-    }
+    return(
+        <footer className={"footer"}>
+            <ul className="list filters-list">
+                <li onClick={ () => linkFilter('all') } className={allFilterClass}>All</li>
+                <li onClick={ () => linkFilter('active') } className={activeFilterClass}>Acitve</li>
+                <li onClick={ () => linkFilter('completed') } className={completedFilterClass}>Completed</li>
+            </ul>
+            <span className="task-counter">{ completedCount } task{ (completedCount !== 1) ? 's' : '' } left</span>
+            <span className="clear-completed link" onClick={ () => clearCompleted() }>Clear completed</span> 
+        </footer>
+    )
 }
+
 
 
 export default Footer

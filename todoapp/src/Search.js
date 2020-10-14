@@ -1,27 +1,21 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
-class Search extends Component {
-    state = {
-        content: ''
+const Search = (props) => {
+    const [content, setContent] = useState('');
+
+    useEffect(() => {
+        props.searchTodo(content);
+    }, [content])
+
+    const handleChange = (e) => {
+        setContent(e.target.value);
     };
 
-    handleChange = (e) => {
-        this.setState({
-            content: e.target.value
-        }, () => this.props.searchTodo(this.state.content));
-    };
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-    }
-
-    render () {
-        return(
-            <form className="search input-item" onSubmit={ this.handleSubmit }>
-                <input type="text" className="input collection-item" onChange={ this.handleChange } placeholder="Search..." value={this.state.content} />
-            </form>
-        )
-    }
+    return(
+        <form className="search input-item" onSubmit={ (e) => e.preventDefault() }>
+            <input type="text" className="input collection-item" onChange={ handleChange } placeholder="Search..." value={content} />
+        </form>
+    )
 }
 
 export default Search;
