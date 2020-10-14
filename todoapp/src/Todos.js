@@ -1,20 +1,14 @@
 import React from 'react';
+import Todo from './Todo';
 
 
-const Todos = (props) => {
-    const todoList = (props.todos.length) ? (
-        props.todos.map(todo => {
-            const completeStatus = todo.completed ? 'completed' : '';
-            const hideStatus = todo.hidden ? 'hidden' : '';
-            return (
-                <div className={'collection-item ' + completeStatus + hideStatus} key={todo.id} onClick={ () => props.completeTodo(todo.id) }>
-                    <span className="task-text">{todo.content}</span>
-                    <div className="checkbox"></div>
-                    <div className="cross" onClick={ () => props.deleteTodo(todo.id) }></div>
-                </div>
-            )
+const Todos = ({ todos, deleteTodo, completeTodo }) => {
+    const todoList = (todos.length) ? (
+        todos.map(({ completed, content, hidden, id }) => {
+            const className = `collection-item ${completed ? ' completed ' : ''} ${hidden ? ' hidden ' : ''}`;
+            return <Todo className={ className } id={ id } content={ content } completeTodo={ completeTodo } deleteTodo={ deleteTodo }/>;
         })
-    ) : (null);
+    ) : null;
     return (
         <div className="todos collection">
             { todoList }

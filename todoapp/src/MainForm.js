@@ -21,13 +21,12 @@ class MainForm extends Component {
         }, this.showFooter);
     };
 
-    deleteTodo = (id) => {
-        const todos = this.state.todos.filter( todo => {
-            return todo.id !== id;
-        });
+    deleteTodo = (e, id) => {
+        const todos = this.state.todos.filter( todo => todo.id !== id );
         this.setState({
             todos
-        }, this.showFooter)
+        }, this.showFooter);
+        e.stopPropagation();
     };
 
     searchTodo = (value) => {
@@ -106,20 +105,20 @@ class MainForm extends Component {
     }
 
     appendFilter = (filter) => {
-        if (filter === 'all-filter') {
+        if (filter === 'all') {
             const todos = this.state.todos.map(todo => { todo.hidden = false; return todo });
             this.setState({
                 todos
             });
-        } else if (filter === 'active-filter') {
+        } else if (filter === 'active') {
             const todos = this.state.todos.map(todo => {
-                !todo.completed ? todo.hidden = false : todo.hidden = true;
+                todo.completed ? todo.hidden = true : todo.hidden = false;
                 return todo;
             });
             this.setState({
                 todos
             });
-        } else if (filter === 'completed-filter') {
+        } else if (filter === 'completed') {
             const todos = this.state.todos.map(todo => {
                 todo.completed ? todo.hidden = false : todo.hidden = true;
                 return todo;
