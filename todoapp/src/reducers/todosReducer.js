@@ -3,6 +3,7 @@ const todosReducer = (state = [], action) => {
         case 'UPDATETODOS':
             state = action.payload;
             return state;
+
         default:
             return state;
     }
