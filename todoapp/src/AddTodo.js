@@ -1,26 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setTodo } from './actions';
 
-const AddTodo = (props) => {
+const AddTodo = ({ addTodo, completeAll, completedAll }) => {
 
-    const [todo, setTodo] = useState({id: Math.random(), completed: false, hidden: false, content: ''});
+    const todo = useSelector(state => state.todo);
+
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
-        setTodo( {...todo, content: e.target.value} );
+        dispatch(setTodo( {id: Math.random(), completed: false, hidden: false, content: e.target.value} ) );
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (todo.content) {
-            props.addTodo(todo);
-            setTodo({id: Math.random(), completed: false, hidden: false, content: ''})
+            addTodo(todo);
+            dispatch(setTodo({id: Math.random(), completed: false, hidden: false, content: ''}));
         }
     };
 
-    const completeAllStatus = props.completeAllStatus ? 'active' : '';
+    const arrowClassName = `arrow ${completedAll ? 'active' : ''}`;
     return(
         <form className="add-todo-form input-item" onSubmit={ handleSubmit }>
             <input type="text" className="input collection-item" onChange={ handleChange } placeholder="What needs to be done?" value={todo.content} />
-            <div className={'arrow ' + completeAllStatus} onClick={ () => props.completeAll() }></div>
+            <div className={arrowClassName} onClick={ () => completeAll() }></div>
         </form>
     );
 };

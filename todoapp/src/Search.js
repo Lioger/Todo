@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSearch } from './actions';
 
-const Search = (props) => {
-    const [content, setContent] = useState('');
+const Search = ({ searchTodo }) => {
+
+    const search = useSelector(state => state.search);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        props.searchTodo(content);
-    }, [content])
+        searchTodo(search);
+    }, [search])
 
     const handleChange = (e) => {
-        setContent(e.target.value);
+        dispatch(setSearch(e.target.value));
     };
 
     return(
         <form className="search input-item" onSubmit={ (e) => e.preventDefault() }>
-            <input type="text" className="input collection-item" onChange={ handleChange } placeholder="Search..." value={content} />
+            <input type="text" className="input collection-item" onChange={ handleChange } placeholder="Search..." value={search} />
         </form>
     )
 }

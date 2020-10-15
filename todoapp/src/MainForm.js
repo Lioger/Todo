@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateTodos, setCompletedCount, setCompletedAll, setCompleteAllSwitch } from './actions';
 import Todos from './Todos';
@@ -19,6 +19,10 @@ const MainForm = () => {
     useEffect(() => {
         getCompletedCount();
     }, [todos]);
+
+    useEffect(() => {
+        checkCompletedAll();
+    }, [completedCount]);
 
     useEffect(() => {
         allTodoCompletedSwitch();
@@ -64,7 +68,7 @@ const MainForm = () => {
 
     const completeAll = () => {
         dispatch(setCompletedAll(!completedAll));
-        dispatch(setCompleteAllSwitch(!completeAllSwitch));
+        dispatch(setCompleteAllSwitch());
     }
 
     const allTodoCompletedSwitch = () => {
@@ -91,7 +95,6 @@ const MainForm = () => {
     const clearCompleted = () => {
         const completedTodos = todos.filter(todo => !todo.completed);
         dispatch(updateTodos(completedTodos));
-        dispatch(setCompletedCount(0));
     }
 
     const appendFilter = (filter) => {
@@ -122,7 +125,7 @@ const MainForm = () => {
             />
             <AddTodo addTodo={ addTodo }
                 completeAll={ completeAll }
-                completeAllStatus={ completedAll }
+                completedAll={ completedAll }
             />
             {todos.length ? <Footer appendFilter={ appendFilter }
                 completedCount={ todos.length-completedCount }
