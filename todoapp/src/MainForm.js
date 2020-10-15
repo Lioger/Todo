@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCompletedCount, updateTodos } from './actions';
 import Todos from './Todos';
 import AddTodo from './AddTodo';
 import Search from './Search';
@@ -23,14 +25,27 @@ const MainForm = () => {
         allTodoCompletedSwitch();
     }, [completeAllSwitch]);
 
+
+
+    const completedCount1 = useSelector(state => state.completedCount);
+    const completedAll1 = useSelector(state => state.completedAll);
+    const completeAllSwitch1 = useSelector(state => state.completeAllSwitch);
+    const todos1 = useSelector(state => state.todos);
+    const dispatch = useDispatch();
+
+    console.log(...todos1);
+
+    
     const addTodo = (todo) => {
         const todosNew = [...todos, todo];
         setTodos(todosNew);
+        dispatch(updateTodos(todosNew));
     };
 
     const deleteTodo = (e, id) => {
         const todosNew = todos.filter( todo => todo.id !== id );
         setTodos(todosNew);
+        dispatch(updateTodos(todosNew));
         e.stopPropagation();
     };
 
@@ -44,6 +59,7 @@ const MainForm = () => {
             return todo;
         });
         setTodos(todosNew);
+        dispatch(updateTodos(todosNew));
     }
 
     const completeTodo = (id) => {
@@ -54,6 +70,7 @@ const MainForm = () => {
             return todo;
         });
         setTodos(todosNew);
+        dispatch(updateTodos(todosNew));
     };
 
     const checkCompletedAll = () => {
@@ -72,12 +89,14 @@ const MainForm = () => {
                 return todo;
             });
             setTodos(todosNew);
+            dispatch(updateTodos(todosNew));
         } else {
             const todosNew = todos.map(todo => {
                 todo.completed = false;
                 return todo;
             });
             setTodos(todosNew);
+            dispatch(updateTodos(todosNew));
         }
     }
 
@@ -89,6 +108,7 @@ const MainForm = () => {
     const clearCompleted = () => {
         const completedTodos = todos.filter(todo => !todo.completed);
         setTodos(completedTodos);
+        dispatch(updateTodos(completedTodos));
         setCompletedCount(0);
     }
 
@@ -96,37 +116,40 @@ const MainForm = () => {
         if (filter === 'all') {
             const todosNew = todos.map(todo => { todo.hidden = false; return todo });
             setTodos(todosNew);
+            dispatch(updateTodos(todosNew));
         } else if (filter === 'active') {
             const todosNew = todos.map(todo => {
                 todo.completed ? todo.hidden = true : todo.hidden = false;
                 return todo;
             });
             setTodos(todosNew);
+            dispatch(updateTodos(todosNew));
         } else if (filter === 'completed') {
             const todosNew = todos.map(todo => {
                 todo.completed ? todo.hidden = false : todo.hidden = true;
                 return todo;
             });
             setTodos(todosNew);
+            dispatch(updateTodos(todosNew));
         }
     }
     
     return (
-    <div className="main-form">
-        <Search searchTodo={ searchTodo }/>
-        <Todos todos={ todos }
-            deleteTodo={ deleteTodo }
-            completeTodo={ completeTodo }
-        />
-        <AddTodo addTodo={ addTodo }
-            completeAll={ completeAll }
-            completeAllStatus={ completedAll }
-        />
-        {todos.length ? <Footer appendFilter={ appendFilter }
-            completedCount={ todos.length-completedCount }
-            clearCompleted={ clearCompleted }
-            /> : null}
-    </div>
+        <div className="main-form">
+            <Search searchTodo={ searchTodo }/>
+            <Todos todos={ todos }
+                deleteTodo={ deleteTodo }
+                completeTodo={ completeTodo }
+            />
+            <AddTodo addTodo={ addTodo }
+                completeAll={ completeAll }
+                completeAllStatus={ completedAll }
+            />
+            {todos.length ? <Footer appendFilter={ appendFilter }
+                completedCount={ todos.length-completedCount }
+                clearCompleted={ clearCompleted }
+                /> : null}
+        </div>
     )
 }
 

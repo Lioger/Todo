@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Todo = ({ className, id, content, deleteTodo, completeTodo }) => {
+const Todo = ({ className, id, content, completeTodo, deleteTodo }) => {
     return (
-        <div className={className} key={id} onClick={ () => completeTodo(id) }>
-            <span className="task-text">{content}</span>
+        <div className={ className } onClick={ () => completeTodo(id) }>
+            <span className="task-text">{ content }</span>
             <div className="checkbox"></div>
             <div className="cross" onClick={ (e) => deleteTodo(e, id) }></div>
         </div>
