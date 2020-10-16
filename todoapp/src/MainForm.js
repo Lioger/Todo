@@ -1,6 +1,20 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateTodos, setCompletedCount, setCompletedAll, setCompleteAllSwitch } from './actions';
+import {
+    appendTodo,
+    removeTodo,
+    setCompleteTodo,
+    findTodos,
+    allTodoCompletedSwitchOn,
+    allTodoCompletedSwitchOff,
+    clearCompletedTodos, 
+    setCompletedCount, 
+    setCompletedAll, 
+    setCompleteAllSwitch,
+    setFilterAll,
+    setFilterActive,
+    setFilterCompleted
+    } from './actions';
 import Todos from './Todos';
 import AddTodo from './AddTodo';
 import Search from './Search';
@@ -30,40 +44,26 @@ const MainForm = () => {
 
     
     const addTodo = (todo) => {
-        const todosNew = [...todos, todo];
-        dispatch(updateTodos(todosNew));
+        dispatch(appendTodo(todo));
     };
 
     const deleteTodo = (e, id) => {
-        const todosNew = todos.filter( todo => todo.id !== id );
-        dispatch(updateTodos(todosNew));
+        dispatch(removeTodo(id));
         e.stopPropagation();
     };
 
-    const searchTodo = (value) => {
-        const todosNew = todos.map(todo => {
-            if (!todo.content.toLowerCase().includes(value.toLowerCase())) {
-                todo.hidden = true;
-            } else {
-                todo.hidden = false;
-            };
-            return todo;
-        });
-        dispatch(updateTodos(todosNew));
+    const searchTodo = (searchRequest) => {
+        dispatch(findTodos(searchRequest));
     }
 
     const completeTodo = (id) => {
-        const todosNew = todos.map(todo => {
-            if (todo.id === id) {
-                todo.completed = !todo.completed;
-            };
-            return todo;
-        });
-        dispatch(updateTodos(todosNew));
+        dispatch(setCompleteTodo(id));
     };
 
     const checkCompletedAll = () => {
-        (todos.length === completedCount && todos.length !== 0) ? dispatch(setCompletedAll(true)) : dispatch(setCompletedAll(false));
+        ((todos.length === completedCount) && (todos.length !== 0)) ?
+         dispatch(setCompletedAll(true)) :
+          dispatch(setCompletedAll(false));
     }
 
     const completeAll = () => {
@@ -73,46 +73,27 @@ const MainForm = () => {
 
     const allTodoCompletedSwitch = () => {
         if (completedAll) {
-            const todosNew = todos.map(todo => {
-                todo.completed = true;
-                return todo;
-            });
-            dispatch(updateTodos(todosNew));
+            dispatch(allTodoCompletedSwitchOn());
         } else {
-            const todosNew = todos.map(todo => {
-                todo.completed = false;
-                return todo;
-            });
-            dispatch(updateTodos(todosNew));
+            dispatch(allTodoCompletedSwitchOff());
         }
     }
 
     const getCompletedCount = () => {
-        const completedTodos = todos.filter(todo => todo.completed);
-        dispatch(setCompletedCount(completedTodos.length));
+        dispatch(setCompletedCount(todos));
     }
 
     const clearCompleted = () => {
-        const completedTodos = todos.filter(todo => !todo.completed);
-        dispatch(updateTodos(completedTodos));
+        dispatch(clearCompletedTodos());
     }
 
     const appendFilter = (filter) => {
         if (filter === 'all') {
-            const todosNew = todos.map(todo => { todo.hidden = false; return todo });
-            dispatch(updateTodos(todosNew));
+            dispatch(setFilterAll());
         } else if (filter === 'active') {
-            const todosNew = todos.map(todo => {
-                todo.completed ? todo.hidden = true : todo.hidden = false;
-                return todo;
-            });
-            dispatch(updateTodos(todosNew));
+            dispatch(setFilterActive());
         } else if (filter === 'completed') {
-            const todosNew = todos.map(todo => {
-                todo.completed ? todo.hidden = false : todo.hidden = true;
-                return todo;
-            });
-            dispatch(updateTodos(todosNew));
+            dispatch(setFilterCompleted());
         }
     }
     
