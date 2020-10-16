@@ -8,36 +8,31 @@ const todosReducer = (state = [], action) => {
 
         case 'SETCOMPLETETODO':
             return state = state.map((todo) => {
-            if (todo.id === action.payload) {
-                todo.completed = !todo.completed;
-            };
+                if (todo.id === action.payload) {
+                    return {...todo, completed: !todo.completed};
+                };
             return todo});
 
         case 'FINDTODOS':
             return state = state.map((todo) => {
-            if (!todo.content.toLowerCase().includes(action.payload.toLowerCase())) {
-                todo.hidden = true;
-            } else {
-                todo.hidden = false;
-            };
-            return todo;
-        });    
+                if (!todo.content.toLowerCase().includes(action.payload.toLowerCase())) {
+                    return {...todo, hidden: true};
+                } else {
+                    return {...todo, hidden: false};
+                };
+            });    
         
         case 'ALLTODOCOMPLETEDSWITCHON':
-            return state = state.map((todo) => {
-                todo.completed = true;
-                return todo});
+            return state = state.map((todo) => ({...todo, completed: true}));
 
         case 'ALLTODOCOMPLETEDSWITCHOFF':
-            return state = state.map((todo) => {
-                todo.completed = false;
-                return todo});
+            return state = state.map((todo) => ({...todo, completed: false}));
 
         case 'CLEARCOMPLETEDTODOS':
             return state = state.filter((todo) => !todo.completed);
 
         case 'ALLFILTER':
-            return state = state.map((todo) => { todo.hidden = false; return todo });
+            return state = state.map((todo) => ({...todo, hidden: false}));
         
         case 'ACTIVEFILTER':
             return state = state.map((todo) => {
@@ -47,8 +42,11 @@ const todosReducer = (state = [], action) => {
 
         case 'COMPLETEDFILTER':
             return state = state.map((todo) => {
-                todo.completed ? todo.hidden = false : todo.hidden = true;
-                return todo;
+                if (todo.completed) {
+                    return {...todo, hidden: false};
+                } else {
+                    return {...todo, hidden: true};
+                 };
             });
 
         default:
